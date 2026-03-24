@@ -401,6 +401,68 @@
         </div>
     </div>
 
+    <!-- Help Modal -->
+    <div id="helpModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:1100; align-items:flex-start; justify-content:center; padding:40px 16px 32px; overflow-y:auto;">
+        <div style="background:rgba(10,20,42,0.98); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:28px; width:100%; max-width:660px; box-shadow:0 24px 48px rgba(0,0,0,0.6);">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:22px;">
+                <h3 style="margin:0; font-size:1.25rem; color:var(--accent); letter-spacing:0.04em;">Como usar o Football Field Sim</h3>
+                <button id="closeHelp" style="font-size:16px; padding:4px 12px;">✕ Fechar</button>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:20px; font-size:0.88rem; line-height:1.7; color:rgba(255,255,255,0.85);">
+
+                <section>
+                    <div style="color:var(--accent); font-weight:700; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:6px;">Jogadores</div>
+                    <ul style="margin:0; padding-left:18px;">
+                        <li>Use os painéis <strong>Ataque</strong> e <strong>Defesa</strong> para adicionar jogadores com o botão <strong>+</strong>.</li>
+                        <li>Cada jogador recebe uma sigla (até 3 letras). <strong>Duplo clique</strong> sobre o jogador no campo para editar a sigla.</li>
+                        <li><strong>Clique e arraste</strong> para mover um jogador pelo campo.</li>
+                        <li>Segure <strong>Shift</strong> ou <strong>Ctrl/Cmd</strong> e clique para selecionar múltiplos jogadores e movê-los juntos.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <div style="color:var(--accent); font-weight:700; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:6px;">Gravação de Rotas</div>
+                    <ul style="margin:0; padding-left:18px;">
+                        <li><strong>Clique direito</strong> sobre um jogador para abrir o modal de gravação de movimento.</li>
+                        <li>Clique em <strong>Iniciar gravação</strong> e arraste o jogador para traçar a rota.</li>
+                        <li>Clique em <strong>Parar gravação</strong> e depois <strong>Salvar movimento</strong> para confirmar.</li>
+                        <li>Use o botão <strong>〰</strong> na barra lateral para mostrar ou ocultar todas as rotas.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <div style="color:var(--accent); font-weight:700; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:6px;">Animação</div>
+                    <ul style="margin:0; padding-left:18px;">
+                        <li><strong>▶</strong> — Inicia a animação de todos os jogadores com rotas gravadas.</li>
+                        <li><strong>↺</strong> — Restaura todos os jogadores às posições originais.</li>
+                        <li><strong>✕</strong> — Apaga todos os movimentos gravados sem mover os jogadores.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <div style="color:var(--accent); font-weight:700; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:6px;">Formações Rápidas</div>
+                    <ul style="margin:0; padding-left:18px;">
+                        <li>Os botões na barra lateral posicionam automaticamente jogadores em formações pré-definidas.</li>
+                        <li><strong>Ataque:</strong> 🥪 Linha Ofensiva · IF Formation · ⬅⬅ Trips Stack Esq · ➡➡ Trips Stack Dir · 2x2 Ace · 3x1 Trey TE</li>
+                        <li><strong>Defesa:</strong> 🐶 Front 4-2 · 👻 Front 3-3 · 🦈 Front 3-4</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <div style="color:var(--accent); font-weight:700; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:6px;">Salvar e Carregar</div>
+                    <ul style="margin:0; padding-left:18px;">
+                        <li><strong>💾</strong> — Exporta a formação atual como arquivo <code style="background:rgba(255,255,255,0.1); padding:1px 5px; border-radius:4px;">.json</code>.</li>
+                        <li><strong>📂</strong> — Carrega uma formação a partir de um arquivo <code style="background:rgba(255,255,255,0.1); padding:1px 5px; border-radius:4px;">.json</code> salvo anteriormente.</li>
+                        <li><strong>📋</strong> — Abre a galeria de playbooks pré-carregados.</li>
+                        <li><strong>🗑️</strong> — Limpa completamente o campo, removendo todos os jogadores.</li>
+                    </ul>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
     <!-- Gallery Modal -->
     <div id="galleryModal">
         <div class="gallery-box">
@@ -443,6 +505,47 @@
         no GitLab
     </footer>
 
+    <button id="helpButton" title="Ajuda" style="
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #061a3d;
+        font-size: 1.4rem;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+        z-index: 1050;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 120ms ease, box-shadow 120ms ease;
+    ">?</button>
+
     <script src="script.js"></script>
+    <script>
+        const helpModal = document.getElementById('helpModal');
+        document.getElementById('helpButton').addEventListener('click', () => {
+            helpModal.style.display = 'flex';
+        });
+        document.getElementById('closeHelp').addEventListener('click', () => {
+            helpModal.style.display = 'none';
+        });
+        helpModal.addEventListener('click', (e) => {
+            if (e.target === helpModal) helpModal.style.display = 'none';
+        });
+        document.getElementById('helpButton').addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.1)';
+            this.style.boxShadow = '0 6px 20px rgba(0,0,0,0.5)';
+        });
+        document.getElementById('helpButton').addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+            this.style.boxShadow = '0 4px 16px rgba(0,0,0,0.4)';
+        });
+    </script>
 </body>
 </html>
