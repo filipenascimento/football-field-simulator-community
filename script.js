@@ -1083,16 +1083,20 @@ async function openGallery() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const manifest = await res.json();
 
-        body.innerHTML = manifest.categories.map(cat => `
-            <div class="gallery-category">
-                <div class="gallery-category-name">${cat.name}</div>
-                <div class="gallery-plays">
-                    ${cat.files.map(f =>
-                        `<button type="button" data-path="${f.path}">${f.label}</button>`
-                    ).join('')}
+        if (manifest.categories.length === 0) {
+            body.innerHTML = '<p style="opacity:0.5; text-align:center;">Nenhum playbook disponível na galeria.</p>';
+        } else {
+            body.innerHTML = manifest.categories.map(cat => `
+                <div class="gallery-category">
+                    <div class="gallery-category-name">${cat.name}</div>
+                    <div class="gallery-plays">
+                        ${cat.files.map(f =>
+                            `<button type="button" data-path="${f.path}">${f.label}</button>`
+                        ).join('')}
+                    </div>
                 </div>
-            </div>
-        `).join('');
+            `).join('');
+        }
 
         body.querySelectorAll('.gallery-plays button').forEach(btn => {
             btn.addEventListener('click', () => loadFromUrl(btn.dataset.path));
