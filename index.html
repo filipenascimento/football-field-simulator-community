@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Field Sim</title>
+    <style>
+        :root {
+            --background: #061a3d;
+            --panel: rgba(255, 255, 255, 0.08);
+            --panel-border: rgba(255, 255, 255, 0.18);
+            --text: #f2f4f8;
+            --accent: #ffcd00;
+            --button: rgba(255, 255, 255, 0.12);
+            --button-hover: rgba(255, 255, 255, 0.18);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 24px;
+            background: radial-gradient(circle at top, #1c3b6d 0%, #061a3d 60%, #020810 100%);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        h1 {
+            margin: 0 0 16px;
+            font-size: 1.8rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        canvas {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            background-color: #4CAF50;
+            border-radius: 14px;
+        }
+
+        #playersColumns {
+            display: flex;
+            gap: 16px;
+            width: 100%;
+            max-width: 1100px;
+            justify-content: center;
+            margin: 20px 0 12px;
+        }
+
+        #playersColumns > div {
+            flex: 1;
+            max-width: 520px;
+            background: var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 12px;
+            padding: 14px 14px 10px;
+            backdrop-filter: blur(10px);
+            max-height: 480px;
+            overflow-y: auto;
+        }
+
+        #playersColumns > div::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #playersColumns > div::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #playersColumns > div::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        #playersColumns > div::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        #playersColumns > div > div:first-child {
+            position: sticky;
+            top: 0;
+            background: var(--panel);
+            backdrop-filter: blur(10px);
+            z-index: 1;
+            padding-bottom: 8px;
+            margin-bottom: -4px;
+        }
+
+        #playersColumns h2 {
+            text-align: center;
+            margin: 0 0 12px;
+            font-size: 1.2rem;
+            letter-spacing: 0.05em;
+        }
+
+        fieldset {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 10px 12px 12px;
+            margin: 10px 0;
+            background: rgba(0, 0, 0, 0.12);
+        }
+
+        legend {
+            padding: 0 6px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        label {
+            display: block;
+            margin: 8px 0 4px;
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+
+        input,
+        textarea,
+        button {
+            margin: 4px 0;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: 2px solid rgba(255, 205, 0, 0.7);
+            border-color: rgba(255, 205, 0, 0.6);
+        }
+
+        button {
+            cursor: pointer;
+            background: var(--button);
+            transition: background 120ms ease;
+        }
+
+        button:hover {
+            background: var(--button-hover);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        textarea {
+            width: 100%;
+            height: 88px;
+        }
+
+        .modal {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            width: 340px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            z-index: 999;
+        }
+
+        .modal-content {
+            background: rgba(12, 24, 45, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            padding: 18px;
+            max-width: 340px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-content h3 {
+            margin: 0 0 10px;
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+
+        .modal-content p {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        #canvasWrapper {
+            display: inline-flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        #fieldSidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        #fieldSidebar button {
+            width: 44px;
+            height: 44px;
+            font-size: 22px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            cursor: pointer;
+            transition: background 120ms ease;
+            margin: 0;
+        }
+
+        #fieldSidebar button:hover {
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+        .btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 6px;
+        }
+
+        .btn-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
+        .sidebar-label {
+            font-size: 9px;
+            text-align: center;
+            opacity: 0.5;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+
+        /* Gallery modal */
+        #galleryModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.72);
+            z-index: 1000;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 48px 16px 32px;
+            overflow-y: auto;
+        }
+
+        #galleryModal .gallery-box {
+            background: rgba(10, 20, 42, 0.98);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 24px;
+            width: 100%;
+            max-width: 680px;
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+        }
+
+        #galleryModal .gallery-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        #galleryModal .gallery-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            color: var(--accent);
+            letter-spacing: 0.04em;
+        }
+
+        #galleryModal .gallery-header button {
+            font-size: 16px;
+            padding: 4px 12px;
+            border-radius: 8px;
+            height: auto;
+            width: auto;
+        }
+
+        .gallery-category {
+            margin-bottom: 18px;
+        }
+
+        .gallery-category-name {
+            font-size: 0.72rem;
+            opacity: 0.55;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+
+        .gallery-plays {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .gallery-plays button {
+            font-size: 0.8rem;
+            padding: 5px 11px;
+            border-radius: 6px;
+            height: auto;
+            width: auto;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 880px) {
+            #playersColumns {
+                flex-direction: column;
+            }
+            canvas {
+                width: 100%;
+                max-width: 900px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Football Field Sim <span style="font-size:0.55em; opacity:0.6; font-weight:400;">(BETA VER.)</span></h1>
+    <div id="canvasWrapper">
+        <canvas id="fieldCanvas" width="800" height="480"></canvas>
+        <div id="fieldSidebar">
+            <div class="btn-grid">
+                <button id="clearAllButton" title="Limpar Tudo">🗑️</button>
+                <button id="clearMovesButton" title="Limpar Todos os Movimentos">✕</button>
+                <button id="startButton" title="Iniciar Movimentação">▶</button>
+                <button id="resetButton" title="Restaurar Posições">↺</button>
+            </div>
+            <div class="btn-row" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
+                <button id="saveButton" title="Salvar Formação">💾</button>
+                <button id="loadButton" title="Carregar Formação">📂</button>
+                <button id="galleryButton" title="Galeria de Playbooks">📋</button>
+                <button id="showAllRoutes" title="Mostrar/ocultar todas as rotas">〰</button>
+            </div>
+            <span class="sidebar-label">Ataque</span>
+            <div class="btn-grid">
+                <button id="quickOL" title="Linha Ofensiva (T-G-C-G-T)">🥪</button>
+                <button id="quickIF" title="I Formation" style="font-size:13px; font-weight:700;">IF</button>
+                <button id="quickTSL" title="Trips Stack Esquerda" style="font-size:20px;">⬅</button>
+                <button id="quickTSR" title="Trips Stack Direita" style="font-size:20px;">➡</button>
+                <button id="quickAce22" title="Ace 2x2" style="font-size:11px; font-weight:700;">2x2</button>
+                <button id="quickTreyTE" title="Trey TE 3x1" style="font-size:11px; font-weight:700;">3x1</button>
+            </div>
+            <span class="sidebar-label">Defesa</span>
+            <div class="btn-grid">
+                <button id="quickDL42" title="Front Defensivo 4-2 (E-T-T-E + M-S)">🐶</button>
+                <button id="quickDL33" title="Front Defensivo 3-3 (E-T-E + W-M-S)">👻</button>
+                <button id="quickDL34" title="Front Defensivo 3-4 (E-T-E + W-M-S-B)">🦈</button>
+            </div>
+        </div>
+    </div>
+    <input id="loadInput" type="file" accept=".json" style="display:none" />
+
+    <div id="recordModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h3>Gravar movimento do jogador</h3>
+            <p id="recordInfo">Clique em "Iniciar gravação" e arraste o jogador pelo campo.</p>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+                <button id="startRecord">Iniciar gravação</button>
+                <button id="stopRecord" disabled>Parar gravação</button>
+                <button id="saveRecord">Salvar movimento</button>
+                <button id="cancelRecord">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="editLabelModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:1000; align-items:center; justify-content:center;">
+        <div class="modal-content" style="max-width:280px; text-align:center;">
+            <h3 id="editLabelTitle" style="margin-bottom:14px;">Editar Label</h3>
+            <input
+                type="text"
+                id="editLabelInput"
+                maxlength="3"
+                autocomplete="off"
+                style="width:80px; font-size:1.6rem; text-align:center; text-transform:uppercase; letter-spacing:0.1em; padding:10px 8px;"
+            />
+            <div style="display:flex; gap:10px; justify-content:center; margin-top:14px;">
+                <button id="saveEditLabel" style="flex:1;">Salvar</button>
+                <button id="cancelEditLabel" style="flex:1;">Cancelar</button>
+            </div>
+            <p style="margin-top:10px; font-size:0.75rem; opacity:0.5;">Enter para salvar · Esc para cancelar</p>
+        </div>
+    </div>
+
+    <!-- Gallery Modal -->
+    <div id="galleryModal">
+        <div class="gallery-box">
+            <div class="gallery-header">
+                <h3>Galeria de Playbooks</h3>
+                <button id="closeGallery">✕ Fechar</button>
+            </div>
+            <div id="galleryBody">
+                <p style="opacity:0.5; text-align:center;">Carregando...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="playersColumns">
+        <div id="offenseColumn">
+            <div style="display:flex; align-items:center; justify-content:space-between;">
+                <h2>Ataque</h2>
+                <button id="addOffense" type="button" style="font-size:18px; line-height:1;">+</button>
+            </div>
+        </div>
+        <div id="defenseColumn">
+            <div style="display:flex; align-items:center; justify-content:space-between;">
+                <h2>Defesa</h2>
+                <button id="addDefense" type="button" style="font-size:18px; line-height:1;">+</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

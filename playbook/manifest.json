@@ -1,0 +1,103 @@
+{
+  "categories": [
+    {
+      "name": "Ace Direita",
+      "files": [
+        { "label": "Ace Direita", "path": "playbook/ace-direita.json" },
+        { "label": "Ace Direita Forte", "path": "playbook/ace-direita-forte.json" },
+        { "label": "Ace Direita Fraco", "path": "playbook/ace-direita-fraco.json" },
+        { "label": "Ace Direita — 55", "path": "playbook/ace-direita-55.json" },
+        { "label": "Ace Direita Forte — 55", "path": "playbook/ace-direita-forte-55.json" },
+        { "label": "Ace Direita Forte — 95", "path": "playbook/ace-direita-forte-95.json" },
+        { "label": "Ace Direita Fraco — 85", "path": "playbook/ace-direita-fraco-85.json" }
+      ]
+    },
+    {
+      "name": "Ace Esquerda",
+      "files": [
+        { "label": "Ace Esquerda", "path": "playbook/ace-esquerda.json" },
+        { "label": "Ace Esq — Screen 14", "path": "playbook/ace-esq-14.json" },
+        { "label": "Ace Esq — Screen 24", "path": "playbook/ace-esq-24.json" },
+        { "label": "Ace Esq — Screen 26", "path": "playbook/ace-esq-26.json" }
+      ]
+    },
+    {
+      "name": "Ace Dir — Back Side Screens",
+      "files": [
+        { "label": "Ace Dir — Screen 15", "path": "playbook/ace-dir-15.json" },
+        { "label": "Ace Dir — Screen 25", "path": "playbook/ace-dir-25.json" },
+        { "label": "Ace Dir — Screen 27", "path": "playbook/ace-dir-27.json" }
+      ]
+    },
+    {
+      "name": "Trips Esquerda",
+      "files": [
+        { "label": "Trips Esq", "path": "playbook/trips-esq.json" },
+        { "label": "Trips Esq Forte", "path": "playbook/trips-esq-forte.json" },
+        { "label": "Trips Esq Fraco", "path": "playbook/trips-esq-fraco.json" },
+        { "label": "Trips Esq Stack", "path": "playbook/trips-esq-stack.json" },
+        { "label": "Trips Esq — 55", "path": "playbook/trips-esq-55.json" },
+        { "label": "Trips Esq — 95", "path": "playbook/trips-esq-95.json" },
+        { "label": "Trips Esq Forte — 53", "path": "playbook/trips-esq-forte-53.json" },
+        { "label": "Trips Esq Forte — 93", "path": "playbook/trips-esq-forte-93.json" },
+        { "label": "Trips Esq Fraco — 53", "path": "playbook/trips-esq-fraco-53.json" },
+        { "label": "Trips Esq Fraco — 93", "path": "playbook/trips-esq-fraco-93.json" },
+        { "label": "Trips Esq Fraco — 95", "path": "playbook/trips-esq-fraco-95.json" },
+        { "label": "Trips Esq Stack — 53", "path": "playbook/trips-esq-stack-53.json" },
+        { "label": "Trips Esq Stack — 93", "path": "playbook/trips-esq-stack-93.json" },
+        { "label": "Trips Esq Stack — 95", "path": "playbook/trips-esq-stack-95.json" }
+      ]
+    },
+    {
+      "name": "Trips Direita",
+      "files": [
+        { "label": "Trips Dir", "path": "playbook/trips-dir.json" },
+        { "label": "Trips Dir — Screen 15", "path": "playbook/trips-dir-15.json" },
+        { "label": "Trips Dir — Screen 25", "path": "playbook/trips-dir-25.json" },
+        { "label": "Trips Dir — Screen 27", "path": "playbook/trips-dir-27.json" }
+      ]
+    },
+    {
+      "name": "vs Brooklyn — Ace",
+      "files": [
+        { "label": "Ace Direita", "path": "playbook/vs-brooklyn/ace-direita-vs-brooklyn.json" },
+        { "label": "Ace Direita Forte", "path": "playbook/vs-brooklyn/ace-direita-forte-vs-brooklyn.json" },
+        { "label": "Ace Direita Fraco", "path": "playbook/vs-brooklyn/ace-direita-fraco-vs-brooklyn.json" },
+        { "label": "Ace Direita — 55", "path": "playbook/vs-brooklyn/ace-direita-55-vs-brooklyn.json" },
+        { "label": "Ace Direita Forte — 55", "path": "playbook/vs-brooklyn/ace-direita-forte-55-vs-brooklyn.json" },
+        { "label": "Ace Direita Forte — 95", "path": "playbook/vs-brooklyn/ace-direita-forte-95-vs-brooklyn.json" },
+        { "label": "Ace Direita Fraco — 85", "path": "playbook/vs-brooklyn/ace-direita-fraco-85-vs-brooklyn.json" },
+        { "label": "Ace Esquerda", "path": "playbook/vs-brooklyn/ace-esquerda-vs-brooklyn.json" },
+        { "label": "Ace Esq — Screen 14", "path": "playbook/vs-brooklyn/ace-esq-14-vs-brooklyn.json" },
+        { "label": "Ace Esq — Screen 24", "path": "playbook/vs-brooklyn/ace-esq-24-vs-brooklyn.json" },
+        { "label": "Ace Esq — Screen 26", "path": "playbook/vs-brooklyn/ace-esq-26-vs-brooklyn.json" },
+        { "label": "Ace Dir — Screen 15", "path": "playbook/vs-brooklyn/ace-dir-15-vs-brooklyn.json" },
+        { "label": "Ace Dir — Screen 25", "path": "playbook/vs-brooklyn/ace-dir-25-vs-brooklyn.json" },
+        { "label": "Ace Dir — Screen 27", "path": "playbook/vs-brooklyn/ace-dir-27-vs-brooklyn.json" }
+      ]
+    },
+    {
+      "name": "vs Brooklyn — Trips",
+      "files": [
+        { "label": "Trips Esq", "path": "playbook/vs-brooklyn/trips-esq-vs-brooklyn.json" },
+        { "label": "Trips Esq Forte", "path": "playbook/vs-brooklyn/trips-esq-forte-vs-brooklyn.json" },
+        { "label": "Trips Esq Fraco", "path": "playbook/vs-brooklyn/trips-esq-fraco-vs-brooklyn.json" },
+        { "label": "Trips Esq Stack", "path": "playbook/vs-brooklyn/trips-esq-stack-vs-brooklyn.json" },
+        { "label": "Trips Esq — 55", "path": "playbook/vs-brooklyn/trips-esq-55-vs-brooklyn.json" },
+        { "label": "Trips Esq — 95", "path": "playbook/vs-brooklyn/trips-esq-95-vs-brooklyn.json" },
+        { "label": "Trips Esq Forte — 53", "path": "playbook/vs-brooklyn/trips-esq-forte-53-vs-brooklyn.json" },
+        { "label": "Trips Esq Forte — 93", "path": "playbook/vs-brooklyn/trips-esq-forte-93-vs-brooklyn.json" },
+        { "label": "Trips Esq Fraco — 53", "path": "playbook/vs-brooklyn/trips-esq-fraco-53-vs-brooklyn.json" },
+        { "label": "Trips Esq Fraco — 93", "path": "playbook/vs-brooklyn/trips-esq-fraco-93-vs-brooklyn.json" },
+        { "label": "Trips Esq Fraco — 95", "path": "playbook/vs-brooklyn/trips-esq-fraco-95-vs-brooklyn.json" },
+        { "label": "Trips Esq Stack — 53", "path": "playbook/vs-brooklyn/trips-esq-stack-53-vs-brooklyn.json" },
+        { "label": "Trips Esq Stack — 93", "path": "playbook/vs-brooklyn/trips-esq-stack-93-vs-brooklyn.json" },
+        { "label": "Trips Esq Stack — 95", "path": "playbook/vs-brooklyn/trips-esq-stack-95-vs-brooklyn.json" },
+        { "label": "Trips Dir", "path": "playbook/vs-brooklyn/trips-dir-vs-brooklyn.json" },
+        { "label": "Trips Dir — Screen 15", "path": "playbook/vs-brooklyn/trips-dir-15-vs-brooklyn.json" },
+        { "label": "Trips Dir — Screen 25", "path": "playbook/vs-brooklyn/trips-dir-25-vs-brooklyn.json" },
+        { "label": "Trips Dir — Screen 27", "path": "playbook/vs-brooklyn/trips-dir-27-vs-brooklyn.json" }
+      ]
+    }
+  ]
+}

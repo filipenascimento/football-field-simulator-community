@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "team": "offense",
+    "label": "QB",
+    "x": 37,
+    "y": 26.65,
+    "frames": []
+  },
+  {
+    "id": 2,
+    "team": "offense",
+    "label": "RB",
+    "x": 33,
+    "y": 26.65,
+    "frames": []
+  },
+  {
+    "id": 3,
+    "team": "offense",
+    "label": "C",
+    "x": 39.0,
+    "y": 26.65,
+    "frames": []
+  },
+  {
+    "id": 4,
+    "team": "offense",
+    "label": "G",
+    "x": 39.0,
+    "y": 23.65,
+    "frames": []
+  },
+  {
+    "id": 5,
+    "team": "offense",
+    "label": "G",
+    "x": 39.0,
+    "y": 29.65,
+    "frames": []
+  },
+  {
+    "id": 6,
+    "team": "offense",
+    "label": "T",
+    "x": 39.0,
+    "y": 20.65,
+    "frames": []
+  },
+  {
+    "id": 7,
+    "team": "offense",
+    "label": "T",
+    "x": 39.0,
+    "y": 32.65,
+    "frames": []
+  },
+  {
+    "id": 8,
+    "team": "offense",
+    "label": "X",
+    "x": 39.0,
+    "y": 3,
+    "frames": []
+  },
+  {
+    "id": 9,
+    "team": "offense",
+    "label": "W",
+    "x": 39,
+    "y": 11,
+    "frames": []
+  },
+  {
+    "id": 10,
+    "team": "offense",
+    "label": "TE",
+    "x": 39.0,
+    "y": 19.0,
+    "frames": []
+  },
+  {
+    "id": 11,
+    "team": "offense",
+    "label": "Z",
+    "x": 39.0,
+    "y": 50,
+    "frames": []
+  }
+]
