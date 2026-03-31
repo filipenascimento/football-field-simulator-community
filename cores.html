@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troca de Cores</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #4CAF50;
+            transition: background-color 0.3s ease;
+            font-family: system-ui, -apple-system, sans-serif;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        #color-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        #hint {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        #back {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 8px 16px;
+            background: rgba(0,0,0,0.25);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        #back:hover {
+            background: rgba(0,0,0,0.4);
+        }
+    </style>
+</head>
+<body>
+    <a id="back" href="index.html">← Voltar</a>
+    <div id="color-name">Verde</div>
+    <div id="hint">Clique em qualquer lugar para trocar a cor</div>
+
+    <script>
+        const colors = [
+            { bg: '#4CAF50', name: 'Verde' },
+            { bg: '#e53935', name: 'Vermelho' },
+            { bg: '#FDD835', name: 'Amarelo' },
+            { bg: '#1E88E5', name: 'Azul' },
+        ];
+
+        let index = 0;
+
+        document.body.addEventListener('click', (e) => {
+            if (e.target.id === 'back') return;
+            index = (index + 1) % colors.length;
+            document.body.style.backgroundColor = colors[index].bg;
+            document.getElementById('color-name').textContent = colors[index].name;
+        });
+    </script>
+</body>
+</html>
