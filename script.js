@@ -303,15 +303,40 @@ function drawField() {
         ctx.stroke();
     }
 
-    // Add yard numbers (10-50-10) inside playing field
+    // ── Hashmarks (NFL: 70'9" apart → 14.875 yd from each sideline) ──────────
+    const hashY1_yards = 14.875;
+    const hashY2_yards = 53.3 - 14.875; // 38.425
+    const hashPxY1 = fieldY + fieldHeight - (hashY1_yards / 53.3) * fieldHeight;
+    const hashPxY2 = fieldY + fieldHeight - (hashY2_yards / 53.3) * fieldHeight;
+    const hashTickLen = 5; // px
+
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+    ctx.lineWidth = 1.5;
+    for (let yard = 1; yard < 100; yard++) {
+        const x = playStartX + (yard / 100) * playWidth;
+        ctx.beginPath();
+        ctx.moveTo(x, hashPxY1 - hashTickLen / 2);
+        ctx.lineTo(x, hashPxY1 + hashTickLen / 2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, hashPxY2 - hashTickLen / 2);
+        ctx.lineTo(x, hashPxY2 + hashTickLen / 2);
+        ctx.stroke();
+    }
+
+    // ── Yard numbers (10-50-10) a ~9 yd de cada sideline ──────────────────────
+    const numYardsFromSideline = 9;
+    const numPixTopRow    = fieldY + fieldHeight - ((53.3 - numYardsFromSideline) / 53.3) * fieldHeight;
+    const numPixBottomRow = fieldY + fieldHeight - (numYardsFromSideline / 53.3) * fieldHeight;
+
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = '16px Arial';
+    ctx.font = 'bold 13px Arial';
     ctx.textAlign = 'center';
     const yardNumbers = [10, 20, 30, 40, 50, 40, 30, 20, 10];
     for (let i = 0; i < yardNumbers.length; i++) {
         const x = playStartX + (i + 1) * yardStep;
-        ctx.fillText(yardNumbers[i], x, fieldY + 20); // Top inside field
-        ctx.fillText(yardNumbers[i], x, fieldY + fieldHeight - 10); // Bottom inside field
+        ctx.fillText(yardNumbers[i], x, numPixTopRow + 5);
+        ctx.fillText(yardNumbers[i], x, numPixBottomRow + 5);
     }
 
     // Add END ZONE text
@@ -872,6 +897,103 @@ startButton.addEventListener('click', () => {
     players.forEach(p => p.currentFrameIndex = 0);
     animate();
 });
+
+// GIF export
+document.getElementById('gifButton').addEventListener('click', exportGif);
+
+function exportGif() {
+    const hasFrames = players.some(p => p.frames.length > 0);
+    if (!hasFrames) {
+        alert('Nenhum movimento gravado para exportar.');
+        return;
+    }
+
+    const gifBtn = document.getElementById('gifButton');
+    gifBtn.disabled = true;
+    gifBtn.classList.add('recording');
+    gifBtn.textContent = '⏳ Gerando GIF...';
+
+    // Save original positions and frame indices
+    const saved = players.map(p => ({ x: p.x, y: p.y, idx: p.currentFrameIndex }));
+
+    // Reset to start
+    resetPositions();
+
+    const gif = new GIF({
+        workers: 2,
+        quality: 8,
+        width: canvas.width,
+        height: canvas.height,
+        workerScript: 'https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.worker.js',
+    });
+
+    const frameDelay = 40; // ms per GIF frame (~25 fps)
+    const speed = 2;       // pixels per step — must match animate()
+
+    // Simulate the animation step-by-step and capture frames
+    function stepAndCapture() {
+        let allDone = true;
+
+        players.forEach(player => {
+            if (player.currentFrameIndex < player.frames.length) {
+                allDone = false;
+                const target = player.frames[player.currentFrameIndex];
+                const dx = target.x - player.x;
+                const dy = target.y - player.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance > 1) {
+                    player.x += dx / distance * speed;
+                    player.y += dy / distance * speed;
+                } else {
+                    player.x = target.x;
+                    player.y = target.y;
+                    player.currentFrameIndex++;
+                }
+            }
+        });
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawField();
+        drawRoutes();
+        drawPlayers();
+        gif.addFrame(ctx, { copy: true, delay: frameDelay });
+
+        if (!allDone) {
+            requestAnimationFrame(stepAndCapture);
+        } else {
+            gif.render();
+        }
+    }
+
+    gif.on('finished', (blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'play.gif';
+        a.click();
+        URL.revokeObjectURL(url);
+
+        // Restore original state
+        players.forEach((p, i) => {
+            p.x = saved[i].x;
+            p.y = saved[i].y;
+            p.currentFrameIndex = saved[i].idx;
+        });
+        redraw();
+
+        gifBtn.disabled = false;
+        gifBtn.classList.remove('recording');
+        gifBtn.textContent = '⬇ Exportar GIF';
+    });
+
+    // Draw first frame (starting positions) and begin stepping
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawField();
+    drawRoutes();
+    drawPlayers();
+    gif.addFrame(ctx, { copy: true, delay: frameDelay * 8 }); // hold start for 320ms
+    requestAnimationFrame(stepAndCapture);
+}
 
 function getFormationData() {
     return players.map(p => {
