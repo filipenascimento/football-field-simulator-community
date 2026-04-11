@@ -341,7 +341,18 @@
                 max-width: 900px;
             }
         }
+        #gifButton.recording {
+            background: rgba(220, 50, 50, 0.35);
+            border-color: rgba(220, 50, 50, 0.6);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.55; }
+        }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.js"></script>
 </head>
 <body>
     <h1>FOFL - Football FieLd Sim - Community Access <span style="font-size:0.55em; opacity:0.6; font-weight:400;">(BETA VER.)</span></h1>
@@ -359,6 +370,9 @@
                 <button id="loadButton" title="Carregar Formação">📂</button>
                 <button id="galleryButton" title="Galeria de Playbooks">📋</button>
                 <button id="showAllRoutes" title="Mostrar/ocultar todas as rotas">〰</button>
+            </div>
+            <div class="btn-row" style="grid-template-columns: 1fr;">
+                <button id="gifButton" title="Exportar animação como GIF" style="font-size:12px; font-weight:600; letter-spacing:0.04em;">⬇ Exportar GIF</button>
             </div>
             <span class="sidebar-label">Ataque</span>
             <div class="btn-grid">
